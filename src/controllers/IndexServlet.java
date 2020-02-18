@@ -1,4 +1,5 @@
 package controllers;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import utils.DBUtil;
 /**
  * Servlet implementation class IndexServlet
  */
-@WebServlet("/index")
+@WebServlet(name = "index", urlPatterns = { "/index" })
 public class IndexServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -34,14 +35,14 @@ public class IndexServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
-        List<Message> messages = em.createNamedQuery("getAllMessages", Message.class)
+        List<Message> tasks = em.createNamedQuery("getAllMessages", Message.class)
                                    .getResultList();
 
         em.close();
 
-        request.setAttribute("messages", messages);
+        request.setAttribute("tasks", tasks);
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");
         rd.forward(request, response);
     }
 }
